@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MCP Productivity Suite</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
+    <meta name="theme-color" content="#1a73e8">
+</head>
+<body>
+    <div id="app">
+        <!-- Authentication Section -->
+        <div id="auth-section">
+            <!-- Decorative graphics -->
+            <div class="auth-graphics">
+                <div class="circle circle-1"></div>
+                <div class="circle circle-2"></div>
+                <div class="circle circle-3"></div>
+            </div>
+            
+            <!-- Logo and brand -->
+            <div class="brand-logo">
+                <i class="fas fa-calendar-check"></i>
+            </div>
+            
+            <h1>MCP Productivity Suite</h1>
+            
+            <p class="welcome-text">
+                Seamlessly manage your meetings and communications with our AI-powered productivity tools.
+                Schedule meetings, send emails, and stay organized—all from one place.
+            </p>
+            
+            <div class="login-container">
+                <h2>Get Started</h2>
+                <p>Sign in with your account to access your calendar and emails.</p>
+                
+                <div class="login-buttons">
+                    <button id="login-google-btn" class="btn-google btn-hover-effect">
+                        <i class="fab fa-google"></i> Sign in with Google
+                    </button>
+                    <button id="login-microsoft-btn" class="btn-microsoft btn-hover-effect">
+                        <i class="fab fa-microsoft"></i> Sign in with Microsoft
+                    </button>
+                </div>
+            </div>
+            
+            <div class="auth-footer">
+                <p>Powered by advanced natural language processing</p>
+                <div class="auth-icons">
+                    <i class="fas fa-calendar"></i>
+                    <i class="fas fa-envelope"></i>
+                    <i class="fas fa-video"></i>
+                    <i class="fas fa-clock"></i>
+                </div>
+            </div>
+            
+            <!-- Decorative wave divider -->
+            <div class="shape-divider">
+                <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                    <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" class="shape-fill"></path>
+                </svg>
+            </div>
+        </div>
+        
+        <!-- Dashboard Section -->
+        <div id="dashboard" style="display: none;">
+            <div class="header">
+                <h1><i class="fas fa-calendar-check"></i> MCP Productivity Suite</h1>
+                <div class="header-controls">
+                    <div class="provider-indicator">
+                        <span><i class="fas fa-plug"></i> Service:</span>
+                        <span id="provider-label"></span>
+                    </div>
+                    <div class="timezone-selector">
+                        <label for="timezone-select"><i class="fas fa-globe"></i> Timezone:</label>
+                        <select id="timezone-select"></select>
+                        <div id="timezone-offset-display" class="timezone-offset"></div>
+                    </div>
+                    <div class="session-info">
+                        <i class="fas fa-clock"></i> Session Time: <span id="session-time"></span>
+                    </div>
+                    <button id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </div>
+            </div>
+            
+            <div class="info-card">
+                <i class="fas fa-info-circle"></i>
+                <p>All times will be displayed in your selected timezone. You can change it anytime using the dropdown above.</p>
+            </div>
+
+            <div class="dashboard-content">
+                <div class="main-content">
+                    <div class="section meeting-section">
+                        <div class="section-header-shine"></div>
+                        <h2><i class="fas fa-calendar-plus"></i> Schedule a Meeting</h2>
+                        <form id="meeting-form">
+                            <div class="form-field">
+                                <input type="text" id="meeting-summary" placeholder=" " required>
+                                <label for="meeting-summary">Meeting Summary</label>
+                            </div>
+                            
+                            <div class="datetime-group">
+                                <div class="datetime-input">
+                                    <label for="meeting-start"><i class="fas fa-hourglass-start"></i> Start Time:</label>
+                                    <input type="datetime-local" id="meeting-start" required>
+                                </div>
+                                <div class="datetime-input">
+                                    <label for="meeting-end"><i class="fas fa-hourglass-end"></i> End Time:</label>
+                                    <input type="datetime-local" id="meeting-end" required>
+                                </div>
+                            </div>
+                            
+                            <div class="form-field">
+                                <textarea id="meeting-attendees" placeholder=" " rows="3"></textarea>
+                                <label for="meeting-attendees">Attendees (email1, email2, ...)</label>
+                            </div>
+                            
+                            <button type="submit" class="btn-primary"><i class="fas fa-save"></i> Schedule Meeting</button>
+                        </form>
+                        
+                        <div class="divider">
+                            <span>OR</span>
+                        </div>
+                        
+                        <h3><i class="fas fa-magic"></i> Schedule with Natural Language</h3>
+                        <form id="natural-meeting-input">
+                            <div class="form-field">
+                                <textarea id="meeting-natural-input" placeholder=" " rows="3" required></textarea>
+                                <label for="meeting-natural-input">Describe your meeting in natural language</label>
+                            </div>
+                            
+                            <div class="tip">
+                                <i class="fas fa-lightbulb"></i> 
+                                <span>Example: Schedule a meeting with john@example.com tomorrow at 2 PM to 4 PM IST for Project Discussion</span>
+                            </div>
+                            
+                            <button type="submit" class="btn-primary"><i class="fas fa-wand-magic-sparkles"></i> Schedule with AI</button>
+                        </form>
+                    </div>
+                    
+                    <div class="section email-section">
+                        <div class="section-header-shine"></div>
+                        <h2><i class="fas fa-envelope"></i> Send an Email</h2>
+                        <form id="email-form">
+                            <div class="form-field">
+                                <input type="text" id="email-to" placeholder=" " required>
+                                <label for="email-to">To</label>
+                            </div>
+                            
+                            <div class="form-field">
+                                <input type="text" id="email-cc" placeholder=" ">
+                                <label for="email-cc">CC</label>
+                            </div>
+                            
+                            <div class="form-field">
+                                <input type="text" id="email-bcc" placeholder=" ">
+                                <label for="email-bcc">BCC</label>
+                            </div>
+                            
+                            <div class="form-field">
+                                <input type="text" id="email-subject" placeholder=" " required>
+                                <label for="email-subject">Subject</label>
+                            </div>
+                            
+                            <div class="form-field">
+                                <textarea id="email-body" placeholder=" " rows="5" required></textarea>
+                                <label for="email-body">Body</label>
+                            </div>
+                            
+                            <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Send Email</button>
+                        </form>
+                        
+                        <div class="divider">
+                            <span>OR</span>
+                        </div>
+                        
+                        <h3><i class="fas fa-magic"></i> Send Email with Natural Language</h3>
+                        <form id="natural-email-input">
+                            <div class="form-field">
+                                <textarea id="email-natural-input" placeholder=" " rows="3" required></textarea>
+                                <label for="email-natural-input">Describe your email in natural language</label>
+                            </div>
+                            
+                            <div class="tip">
+                                <i class="fas fa-lightbulb"></i> 
+                                <span>Example: Send an email to sarah@example.com with subject 'Project Update' and tell her the project is on track</span>
+                            </div>
+                            
+                            <button type="submit" class="btn-primary"><i class="fas fa-wand-magic-sparkles"></i> Send with AI</button>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="side-content">
+                    <div class="section calendar-section">
+                        <div class="section-header-shine"></div>
+                        <h2><i class="fas fa-calendar-alt"></i> Upcoming Events</h2>
+                        <div class="events-container">
+                            <div class="events-header">
+                                <p><i class="fas fa-clock"></i> Your scheduled meetings and events</p>
+                                <button id="refresh-calendar" class="btn-refresh"><i class="fas fa-sync-alt"></i> Refresh</button>
+                            </div>
+                            <ul id="calendar-events">
+                                <li class="loading-events">
+                                    <i class="fas fa-spinner fa-pulse"></i>
+                                    <span>Loading your events...</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Stats Widget -->
+                    <div class="section stats-section">
+                        <h2><i class="fas fa-chart-simple"></i> At a Glance</h2>
+                        <div class="stats-container">
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-calendar-day"></i></div>
+                                <div class="stat-info">
+                                    <span class="stat-value" id="today-events">-</span>
+                                    <span class="stat-label">Today's Events</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-calendar-week"></i></div>
+                                <div class="stat-info">
+                                    <span class="stat-value" id="week-events">-</span>
+                                    <span class="stat-label">This Week</span>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-icon"><i class="fas fa-envelope"></i></div>
+                                <div class="stat-info">
+                                    <span class="stat-value" id="emails-sent">-</span>
+                                    <span class="stat-label">Emails Sent</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Theme Toggle Button -->
+        <div class="theme-toggle" id="theme-toggle">
+            <i class="fas fa-moon"></i>
+        </div>
+        
+        <!-- Notification Elements -->
+        <div id="error-message"></div>
+        <div id="success-message"></div>
+    </div>
+    
+    <script>
+        // Make Luxon globally available
+        window.DateTime = luxon.DateTime;
+        window.Duration = luxon.Duration;
+        window.Interval = luxon.Interval;
+        
+        // Theme toggle functionality
+        document.getElementById('theme-toggle').addEventListener('click', function() {
+            const body = document.body;
+            body.classList.add('theme-transition');
+            
+            if (body.getAttribute('data-theme') === 'dark') {
+                body.removeAttribute('data-theme');
+                this.innerHTML = '<i class="fas fa-moon"></i>';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                this.innerHTML = '<i class="fas fa-sun"></i>';
+                localStorage.setItem('theme', 'dark');
+            }
+            
+            setTimeout(() => {
+                body.classList.remove('theme-transition');
+            }, 500);
+        });
+        
+        // Check for saved theme preference
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            document.body.setAttribute('data-theme', 'dark');
+            document.getElementById('theme-toggle').innerHTML = '<i class="fas fa-sun"></i>';
+        }
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
